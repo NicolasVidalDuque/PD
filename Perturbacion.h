@@ -47,12 +47,11 @@ solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar
 }
 
 solution main_perturbacion(solution& actual, instance& data) {
-    solution copia;
+    solution copia = actual;
     solution prueba;
     vector<KPIs> historico;
-    copia = actual;
     solution mejor;
-    string path = "resultados//historico.txt";
+    
 
     for (int i = 3; i < 15; i++)
     {

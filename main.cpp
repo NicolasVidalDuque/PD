@@ -34,7 +34,7 @@ int main() {
         
     Triple.vL = loadSolution(path);
     decode(Triple, data);
-    cout << "Triple " << "z: " << Triple.KPI.z << " - pref: " << Triple.KPI.sum_preferencias << " - duros: " << Triple.KPI.cruceduro << " - suave: " << Triple.KPI.crucesuave << endl;
+    // cout << "Triple " << "z: " << Triple.KPI.z << " - pref: " << Triple.KPI.sum_preferencias << " - duros: " << Triple.KPI.cruceduro << " - suave: " << Triple.KPI.crucesuave << endl;
 
     while (a++ < 5)
     {
