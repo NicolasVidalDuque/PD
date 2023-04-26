@@ -1,0 +1,6 @@
+#include "busqueda.h"
+#include "init.h"
+#include "Perturbacion.h"
+#include "print.h"
+#include "reading.h"
+#include "structures.h"
