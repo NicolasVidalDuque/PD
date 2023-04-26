@@ -211,12 +211,14 @@ bool sorting_solutions(solution &a, solution &b){
 	return (a.KPI.z > b.KPI.z);
 }
 
-solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solution (*metodo_poblacion_1)(solution&, instance&), solution (*metodo_poblacion_2)(solution&, instance&),solution (*metodo_poblacion_3)(solution&, instance&), string &hibrid) {//exactamente la misma, solo que llama a la otra
+void triple(solution& semilla, instance& data, vector<KPIs>& historico, solution (*metodo_poblacion_1)(solution&, instance&), solution (*metodo_poblacion_2)(solution&, instance&),solution (*metodo_poblacion_3)(solution&, instance&),string &archivo, int prueba, int numPerturba) {//exactamente la misma, solo que llama a la otra
 	solution actual;
 	solution mejor_mejor;
 	actual = semilla;
 	int i = 0;
 	bool bandera = true;
+
+	
 
 	while(bandera){
 		vector<solution> ranking = {
@@ -224,6 +226,7 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 			metodo_poblacion_2(actual,data),
 			metodo_poblacion_3(actual,data)
 		};
+		i++;
 		
 		sort(ranking.begin(), ranking.end(), sorting_solutions);
 		actual = ranking[0];
@@ -231,14 +234,11 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 		historico.push_back(actual.KPI);
 		if (actual.KPI.z > mejor_mejor.KPI.z){
 			mejor_mejor = actual;
-			print_it(hibrid ,actual,i);
 		}else {
-			cout << "-----------------------------------------------------------------" << endl;
 			bandera = false;
 		}
-		i++;
 	}
-	return mejor_mejor;
+	cout << archivo << " " << prueba << " " << numPerturba << " " << mejor_mejor.KPI.z << " " << i << endl;
 }
 
 
@@ -278,32 +278,4 @@ void correr_duales(instance& data,vector<KPIs>& historico){
 		}
 	}
 
-}
-
-solution correr_triple(solution& actual, instance& data, vector<KPIs>& historico){
-	solution resultado;
-	string path = "resultados\\";
-	string n = "triple";
-	clear_file(path);
-
-	historico.clear();
-
-	resultado = triple(
-		actual,
-		data,
-		historico,
-		poblar_vecindario_cambioTS,
-		poblar_vecindario_intercambio,
-		poblar_vecindario_introducir,
-		n
-	);
-	print_historico(historico, path);
-
-	return resultado;
-}
-
-solution busqueda(solution& semilla, instance& data,vector<KPIs>& historico) {
-	string n = "Triple - ";
-	cout << "busqueda:actual " << "z: " << semilla.KPI.z << " - pref: "<< semilla.KPI.sum_preferencias << " - duros: " << semilla.KPI.cruceduro << " - suave: " << semilla.KPI.crucesuave << endl;
-	return correr_triple(semilla, data, historico);
 }

@@ -46,25 +46,25 @@ solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar
     return nueva;
 }
 
-solution main_perturbacion(solution& actual, instance& data) {
+void main_perturbacion(solution& actual, instance& data, string &archivo, int prueba) {
     solution copia = actual;
-    solution prueba;
     vector<KPIs> historico;
     solution mejor;
-    
 
-    for (int i = 3; i < 15; i++)
+    for (int i = 1; i < 11; i++)
     {
-        cout << "......................... ITERACION " << i << " .........................\n" << endl;
         copia = Perturbacion2(copia, data,i);
+        copia = Perturbacion(copia, data, i);
 
-        prueba = busqueda(copia, data, historico);
-
-        if (prueba.KPI.z>mejor.KPI.z)
-        {
-            mejor = prueba;
-        }
+        triple(
+            copia,
+            data,
+            historico,
+            poblar_vecindario_cambioTS,
+            poblar_vecindario_intercambio,
+            poblar_vecindario_introducir,
+            archivo, prueba, i
+        );
     }
- 
-    return prueba;
+
 }
