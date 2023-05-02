@@ -212,7 +212,7 @@ bool sorting_solutions(solution &a, solution &b){
 	return (a.KPI.z > b.KPI.z);
 }
 
-solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solution (*metodo_poblacion_1)(solution&, instance&), solution (*metodo_poblacion_2)(solution&, instance&),solution (*metodo_poblacion_3)(solution&, instance&), string &hibrid) {//exactamente la misma, solo que llama a la otra
+solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solution (*metodo_poblacion_1)(solution&, instance&), solution (*metodo_poblacion_2)(solution&, instance&),solution (*metodo_poblacion_3)(solution&, instance&)) {//exactamente la misma, solo que llama a la otra
 	solution actual;
 	solution mejor_mejor;
 	actual = semilla;
@@ -231,10 +231,10 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 		historico.push_back(actual.KPI);
 		if (actual.KPI.z > mejor_mejor.KPI.z){
 			mejor_mejor = actual;
-			print_it(hibrid,actual,i);
+			print_it(__FUNCTION__,mejor_mejor,i);
 		}else {
 			cout << "No mejoro " << endl;
-			print_it(hibrid, actual, i);
+			print_it(__FUNCTION__, actual, i);
 			break;
 		}
 	}
@@ -280,30 +280,14 @@ void correr_duales(instance& data,vector<KPIs>& historico){
 
 }
 
-solution correr_triple(solution& actual, instance& data, vector<KPIs>& historico){
-	solution resultado;
-	string path = "C:\\Users\\pipeh\\OneDrive\\Documentos\\c++\\material\\h_tripe.txt";
-	string n = "triple";
-	clear_file(path);
-
-	historico.clear();
-
-	resultado = triple(
-		actual,
+solution busqueda(solution& semilla, instance& data,vector<KPIs>& historico) {
+	print_it(__FUNCTION__, semilla, 0);
+	return triple(
+		semilla,
 		data,
 		historico,
 		poblar_vecindario_cambioTS,
 		poblar_vecindario_intercambio,
-		poblar_vecindario_introducir,
-		n
-	);
-	print_historico(historico, path);
-
-	return resultado;
-}
-
-solution busqueda(solution& semilla, instance& data,vector<KPIs>& historico) {
-	
-	cout << "busqueda:actual " << "z: " << semilla.KPI.z << " - pref: "<< semilla.KPI.sum_preferencias << " - duros: " << semilla.KPI.cruceduro << " - suave: " << semilla.KPI.crucesuave << endl;
-	return correr_triple(semilla, data, historico);
+		poblar_vecindario_introducir
+	);	 
 }

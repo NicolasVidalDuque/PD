@@ -3,6 +3,17 @@
 #include "structures.h"
 #include "fstream"
 
+void print_it(string origen, solution& actual, int i) {
+	printf("%10s %d |  z:  %-6.0f    p:  %-4.0f    d:  %-3.0f    s:  %-3.0f \n",
+		origen.c_str(),
+		i+1,
+		actual.KPI.z,
+		actual.KPI.sum_preferencias,
+		actual.KPI.cruceduro,
+		actual.KPI.crucesuave
+	);
+}
+
 void print_solution(solution s, string path) {
     ofstream output_file(path);
     for (auto& l : s.vL) {
