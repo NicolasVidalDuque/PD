@@ -1,11 +1,10 @@
 #pragma once
 #include <string>
 #include <sstream>
-#include <set>
-#include <vector>
 #include "structures.h"
 
 using namespace std;
+
 
 void read_Lecture_Lecture(map<int, set<int>>& data, string path) {
     ifstream input_file(path);
@@ -101,7 +100,7 @@ void read_Preferences(vector<vector<int>>& p, string path) {
     infile.close();
 }
 void reading(instance& data) {
-    string path = "datos\\";
+    string path = "C:\\Users\\pipeh\\OneDrive\\Documentos\\c++\\material\\";
 
     string pathFijas = path + "Fijas.txt";
     string pathConflictK2LL = path + "K2_LECTUREvsLECTURE.txt";

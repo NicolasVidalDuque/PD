@@ -1,11 +1,13 @@
 #pragma once
+#include "structures.h"
 #include <algorithm>
 #include <iostream>
 #include "print.h"
 #include "init.h"
-#include "structures.h"
 
-using namespace std;
+void print_it(string& origen, solution& actual, int& i) {
+	cout << origen << " " << i + 1 << " " << "z: " << actual.KPI.z << " - pref: " << actual.KPI.sum_preferencias << " - duros: " << actual.KPI.cruceduro << " - suave: " << actual.KPI.crucesuave << endl;
+}
 
 solution poblar_vecindario_introducir_priori(solution& actual, instance& data) {
 	solution nueva;
@@ -92,13 +94,15 @@ solution poblar_vecindario_cambioTS(solution& actual, instance& data) {
 
 						for (auto itr = data.mCompatiblesL[a + 1].begin(); itr != data.mCompatiblesL[a + 1].end(); itr++) {
 							if (actual.vL[*itr - 1].TS == *it2) { //si el TS del *itr es compatible con el Lecture a que siga
+								if (a<*itr-1){
 
-								nueva = actual;
-								nueva.vL[a].TS = *it2;
-								nueva.vL[*itr - 1].TS = *it;
-								decode(nueva, data);
-								if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
-									mejor_vecina = nueva;
+									nueva = actual;
+									nueva.vL[a].TS = *it2;
+									nueva.vL[*itr - 1].TS = *it;
+									decode(nueva, data);
+									if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
+										mejor_vecina = nueva;
+									}
 								}
 							}
 						}
@@ -118,18 +122,19 @@ solution poblar_vecindario_intercambio(solution& actual, instance& data) {
 	for (int a = 0; a < TOTAL_LECTURES - 1; a++){
 		
 		for (auto itr = data.mCompatiblesL[a + 1].begin(); itr != data.mCompatiblesL[a + 1].end(); itr++) {
-			if (data.mConfilctLTS[a+1].count(actual.vL[*itr-1].TS)) { //si el TS del *itr es compatible con el Lecture a que siga
+			if (a<*itr-1){
 
-				nueva = actual;
-				nueva.vL[a].TS = actual.vL[*itr - 1].TS;
-				nueva.vL[*itr - 1].TS = actual.vL[a].TS;
-				decode(nueva, data);
-				if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
-					mejor_vecina = nueva;
+				if (data.mConfilctLTS[a + 1].count(actual.vL[*itr - 1].TS)) { //si el TS del *itr es compatible con el Lecture a que siga
+					nueva = actual;
+					nueva.vL[a].TS = actual.vL[*itr - 1].TS;
+					nueva.vL[*itr - 1].TS = actual.vL[a].TS;
+					decode(nueva, data);
+					if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
+						mejor_vecina = nueva;
+					}
 				}
 			}
 		}
-		
 
 	}
 	return mejor_vecina;
@@ -211,22 +216,18 @@ bool sorting_solutions(solution &a, solution &b){
 	return (a.KPI.z > b.KPI.z);
 }
 
-void triple(solution& semilla, instance& data, vector<KPIs>& historico, solution (*metodo_poblacion_1)(solution&, instance&), solution (*metodo_poblacion_2)(solution&, instance&),solution (*metodo_poblacion_3)(solution&, instance&),string &archivo, int prueba, int numPerturba) {//exactamente la misma, solo que llama a la otra
+solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solution (*metodo_poblacion_1)(solution&, instance&), solution (*metodo_poblacion_2)(solution&, instance&),solution (*metodo_poblacion_3)(solution&, instance&), string &hibrid) {//exactamente la misma, solo que llama a la otra
 	solution actual;
 	solution mejor_mejor;
 	actual = semilla;
-	int i = 0;
-	bool bandera = true;
+	int cont = 0;
 
-	
-
-	while(bandera){
+	for (int i = 0; i <10000; i++){
 		vector<solution> ranking = {
 			metodo_poblacion_1(actual,data),
 			metodo_poblacion_2(actual,data),
 			metodo_poblacion_3(actual,data)
 		};
-		i++;
 		
 		sort(ranking.begin(), ranking.end(), sorting_solutions);
 		actual = ranking[0];
@@ -234,11 +235,14 @@ void triple(solution& semilla, instance& data, vector<KPIs>& historico, solution
 		historico.push_back(actual.KPI);
 		if (actual.KPI.z > mejor_mejor.KPI.z){
 			mejor_mejor = actual;
+			print_it(hibrid,actual,i);
 		}else {
-			bandera = false;
+			cout << "No mejoro " << endl;
+			print_it(hibrid, actual, i);
+			break;
 		}
 	}
-	cout << archivo << " " << prueba << " " << numPerturba << " " << mejor_mejor.KPI.z << " " << i << endl;
+	return mejor_mejor;
 }
 
 
@@ -278,4 +282,32 @@ void correr_duales(instance& data,vector<KPIs>& historico){
 		}
 	}
 
+}
+
+solution correr_triple(solution& actual, instance& data, vector<KPIs>& historico){
+	solution resultado;
+	string path = "C:\\Users\\pipeh\\OneDrive\\Documentos\\c++\\material\\h_tripe.txt";
+	string n = "triple";
+	clear_file(path);
+
+	historico.clear();
+
+	resultado = triple(
+		actual,
+		data,
+		historico,
+		poblar_vecindario_cambioTS,
+		poblar_vecindario_intercambio,
+		poblar_vecindario_introducir,
+		n
+	);
+	print_historico(historico, path);
+
+	return resultado;
+}
+
+solution busqueda(solution& semilla, instance& data,vector<KPIs>& historico) {
+	
+	cout << "busqueda:actual " << "z: " << semilla.KPI.z << " - pref: "<< semilla.KPI.sum_preferencias << " - duros: " << semilla.KPI.cruceduro << " - suave: " << semilla.KPI.crucesuave << endl;
+	return correr_triple(semilla, data, historico);
 }

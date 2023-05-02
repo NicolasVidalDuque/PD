@@ -1,11 +1,10 @@
 #pragma once
 #include "Encabezados.h"
-#include <random>
 
-using namespace std;
 
 solution Perturbacion(solution& actual, instance& data, int i) {//1L aleatorio
     solution nueva;
+    int c = 0;
     for (int a = 0; a < i; a++){
 
         uniform_int_distribution<int> dist1(0, TOTAL_LECTURES - 1);
@@ -19,13 +18,16 @@ solution Perturbacion(solution& actual, instance& data, int i) {//1L aleatorio
 
         nueva = actual;
         nueva.vL[aux1].TS = *it;
+        c++;
     }
+    cout << c << endl;
     decode(nueva, data);
     return nueva;
 }
 
 solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar 2 L aleatorios
     solution nueva;
+    int c = 0;
     for (int a = 0; a < i; a++) {
         //Primer Lecture
         uniform_int_distribution<int> dist1(0, TOTAL_LECTURES - 1);
@@ -41,30 +43,26 @@ solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar
         nueva = actual;
         nueva.vL[aux1].TS = actual.vL[*it - 1].TS;
         nueva.vL[*it - 1].TS = actual.vL[aux1].TS;
+        c++;
     }
+    cout << c << endl;
     decode(nueva, data);
     return nueva;
 }
 
-void main_perturbacion(solution& actual, instance& data, string &archivo, int prueba) {
-    solution copia = actual;
+solution main_perturbacion(solution& actual, instance& data) {
+
+    solution copia;
     vector<KPIs> historico;
+    copia = actual;
     solution mejor;
+    mejor.KPI.z = -100000;
 
-    for (int i = 1; i < 11; i++)
-    {
-        copia = Perturbacion2(copia, data,i);
-        copia = Perturbacion(copia, data, i);
+    
+        copia = Perturbacion2(copia, data,6);
+        copia = Perturbacion(copia, data, 6);
 
-        triple(
-            copia,
-            data,
-            historico,
-            poblar_vecindario_cambioTS,
-            poblar_vecindario_intercambio,
-            poblar_vecindario_introducir,
-            archivo, prueba, i
-        );
-    }
-
+        
+ 
+    return copia;
 }

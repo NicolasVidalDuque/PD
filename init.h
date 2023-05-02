@@ -177,6 +177,7 @@ solution makeSolIni(instance data) {
                 for (auto itr = data.mConfilctLL[auxId].begin(); itr != data.mConfilctLL[auxId].end(); itr++) {
                     is_inTSTS = data.mConfilctTSTS[pRandomTS].count(vLSol[*itr - 1].TS); // 1: hay conflicto, 0: No conflict
                     if (is_inTSTS == true) break;
+
                 }
             }
 

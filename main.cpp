@@ -1,9 +1,5 @@
-#include "init.h"
-#include "reading.h"
-#include "structures.h"
-#include "busqueda.h"
-#include "print.h"
-#include "Perturbacion.h"
+#include "Encabezados.h"
+
 
 using namespace std;
 
@@ -17,56 +13,71 @@ int main() {
     vector<KPIs> historico;
     vector<KPIs> mejor_historico;
     vector<int> v_tipo (3,0);
-    string path1 = "datos\\SolucionTrip1.txt";
-    string path2 = "datos\\SolucionTrip1.txt";
-    string path3 = "datos\\SolucionTrip1.txt";
+    string path = "C:\\Users\\pipeh\\OneDrive\\Documentos\\c++\\material\\";
     solution Sol;
-    solution Triple;
-    int a = 0;
+    solution sol_per;
+    int cont = 1;
 
     bool mejora = true;
+    
 
-    // //Solucion inicial
-    // solution solIni = makeSolIni(data);
-    // decode(solIni, data);
 
-    // //Busqueda
-    // solIni = busqueda(solIni, data,historico);
-    // print_solution(solIni, path);
+        
+        //Solucion inicial
+        cout << "Inicial" << endl;
+        solution solIni = makeSolIni(data);
+        decode(solIni, data);
+        cout << "Inicial " << endl;
+        cout << "z: " << solIni.KPI.z << " - pref: " << solIni.KPI.sum_preferencias << " - duros: " << solIni.KPI.cruceduro << " - suave: " << solIni.KPI.crucesuave << endl;
 
-    vector<string> paths = {
-        "SolucionTrip1",
-        "resultado_triple",
-        "solution_triple"
-    };
-	printf("archivo  prueba  z  numPerturba\n");
-    for(auto path : paths){
-        Triple.vL = loadSolution("datos\\" + path + ".txt");
-        decode(Triple, data);
-        // cout << "Triple " << "z: " << Triple.KPI.z << " - pref: " << Triple.KPI.sum_preferencias << " - duros: " << Triple.KPI.cruceduro << " - suave: " << Triple.KPI.crucesuave << endl;
+        
+        //Busqueda local
+        solFin = busqueda(solIni, data,historico);
+        decode(solFin, data);
 
-        while (a++ < 5)
-        {
-            
+       
+        while (mejora){
+
+            cout << "" << endl;
+            cout << "Perturbacion " << cont << endl;
+            cout << "" << endl;
+
             //Perturbacion
-            
-            main_perturbacion(Triple, data, path, a);
+            sol_per = main_perturbacion(solFin, data);
+            decode(sol_per, data);
 
-            // if (Sol.KPI.z <= Triple.KPI.z){
-            //     mejora = false;
-            // }else {
-            //     cout << "Main:Mejoro " << "z: " << Sol.KPI.z << " - pref: " << Sol.KPI.sum_preferencias << " - duros: " << Sol.KPI.cruceduro << " - suave: " << Sol.KPI.crucesuave << endl;
-            //     Triple = Sol;
-            // }
-            
+            //Busqueda local post perturbacion
+            sol_per = busqueda(sol_per, data, historico);
+            decode(sol_per, data);
 
+            if (sol_per.KPI.z>solFin.KPI.z){
+                solFin = sol_per;
+                cout << "" << endl;
+                cout << "Nueva mejor " << endl;
+                cout <<"z: " << solFin.KPI.z << " - pref: " << solFin.KPI.sum_preferencias << " - duros: " << solFin.KPI.cruceduro << " - suave: " << solFin.KPI.crucesuave << endl;
+            }else{
+                cont++;
+                if (cont>3){
+                    mejora = false;
+                }
+            }
 
         }
-    }
+        /*
+        if (Sol.KPI.z <= Triple.KPI.z){
+            mejora = false;
+        }else {
+            cout << "Main:Mejoro " << "z: " << Sol.KPI.z << " - pref: " << Sol.KPI.sum_preferencias << " - duros: " << Sol.KPI.cruceduro << " - suave: " << Sol.KPI.crucesuave << endl;
+            Triple = Sol;
+        }
+        */
+    
 
-    //     // print_solution(solFin, path + "SolucionFinal.txt");
-    //     // print_historico(mejor_historico, path + "HistoricoFinal.txt");
-    //     // print_tipo(v_tipo, path + "TipoFinal.txt");
+    
+    
+         //print_solution(solFin, path + "SolucionTrip1.txt");
+         //print_historico(mejor_historico, path + "HistoricoFinal.txt");
+        // print_tipo(v_tipo, path + "TipoFinal.txt");
     
 
     cout << "fin...\n";

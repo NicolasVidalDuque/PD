@@ -56,6 +56,7 @@ struct KPIs {
 struct solution {
     KPIs KPI;
     vector<lecture> vL;
+
 };
 
 
