@@ -18,7 +18,7 @@ int main() {
     solution solIni = makeSolIni(data);
     decode(solIni, data);
     cout << "Inicial " << endl;
-    print_it(__FUNCTION__, solIni, 1);
+    print_it(__FUNCTION__, solIni, 0);
     
     //Busqueda local
     solFin = busqueda(solIni, data,historico);

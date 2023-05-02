@@ -50,7 +50,7 @@ struct KPIs {
     double preferencias; //Preferencias
     double sum_preferencias;
     int crucesuave; //K2 - Cruces Suaves
-    int cruceduro;
+    double cruceduro;
     KPIs() : z(-100000), crucesuave(0), preferencias(-1), cruceduro(0), sum_preferencias(-1){}
 };
 struct solution {

@@ -100,7 +100,7 @@ void read_Preferences(vector<vector<int>>& p, string path) {
     infile.close();
 }
 void reading(instance& data) {
-    string path = "C:\\Users\\pipeh\\OneDrive\\Documentos\\c++\\material\\";
+    string path = "datos\\";
 
     string pathFijas = path + "Fijas.txt";
     string pathConflictK2LL = path + "K2_LECTUREvsLECTURE.txt";

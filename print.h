@@ -4,9 +4,9 @@
 #include "fstream"
 
 void print_it(string origen, solution& actual, int i) {
-	printf("%10s %d |  z:  %-6.0f    p:  %-4.0f    d:  %-3.0f    s:  %-3.0f \n",
+	printf("%10s %3d |  z:  %-6.0f    p:  %-4.0f    d:  %-3.0f    s:  %-3.0d \n",
 		origen.c_str(),
-		i+1,
+		i,
 		actual.KPI.z,
 		actual.KPI.sum_preferencias,
 		actual.KPI.cruceduro,

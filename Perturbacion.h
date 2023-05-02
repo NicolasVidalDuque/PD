@@ -46,6 +46,7 @@ solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar
 solution main_perturbacion(solution& actual, instance& data) {
     solution copia = actual;
     int numPerturbations = 6;
+    cout << "-- Perturbacion --" << endl;
     copia = Perturbacion2(copia, data,numPerturbations);
     copia = Perturbacion(copia, data, numPerturbations);
     return copia;

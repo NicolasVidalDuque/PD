@@ -233,8 +233,7 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 			mejor_mejor = actual;
 			print_it(__FUNCTION__,mejor_mejor,i);
 		}else {
-			cout << "No mejoro " << endl;
-			print_it(__FUNCTION__, actual, i);
+			cout << "-- Optimo Local --" << endl;
 			break;
 		}
 	}
