@@ -13,16 +13,13 @@ int main() {
     vector<KPIs> historico;
     vector<KPIs> mejor_historico;
     vector<int> v_tipo (3,0);
-    string path = "C:\\Users\\pipeh\\OneDrive\\Documentos\\c++\\material\\";
+    string path = "datos\\";
     solution Sol;
     solution sol_per;
     int cont = 1;
 
     bool mejora = true;
-    
 
-
-        
         //Solucion inicial
         cout << "Inicial" << endl;
         solution solIni = makeSolIni(data);

@@ -5,10 +5,6 @@
 #include "print.h"
 #include "init.h"
 
-void print_it(string& origen, solution& actual, int& i) {
-	cout << origen << " " << i + 1 << " " << "z: " << actual.KPI.z << " - pref: " << actual.KPI.sum_preferencias << " - duros: " << actual.KPI.cruceduro << " - suave: " << actual.KPI.crucesuave << endl;
-}
-
 solution poblar_vecindario_introducir_priori(solution& actual, instance& data) {
 	solution nueva;
 	solution mejor_vecina;
