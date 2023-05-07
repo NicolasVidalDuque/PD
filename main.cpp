@@ -1,9 +1,9 @@
 #include "Encabezados.h"
 
-
 using namespace std;
 
 int main() {
+    
     instance data;
     generate_all(data);
     reading(data);
