@@ -89,17 +89,15 @@ void crucesDuros(solution& s, instance& data) {
 }
 
 void decode(solution& s, instance& data) {
-    int sum = 0, faltantes = 0;
+    int sum = 0;
     pair<int, int> nullPair = make_pair(0, 0);
     lecture l;
     for (int j = 0; j < s.vL.size(); j++) {
         l = s.vL[j];
-        int i = l.id;
         sum += data.mPreferences[l.id - 1][data.mapTS_ID[l.TS]];
     }
 
     s.KPI.sum_preferencias = sum;
-    s.KPI.preferencias = double(sum) / double(TOTAL_LECTURES);
     crucesSuaves(s, data);
     crucesDuros(s, data);
     s.KPI.z = (s.KPI.sum_preferencias - s.KPI.crucesuave - 1000 * s.KPI.cruceduro);

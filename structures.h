@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include <chrono>
 
 # define TOTAL_LECTURES 100
 # define TOTAL_TIMESLOTS 132
@@ -59,4 +60,33 @@ struct solution {
 
 };
 
+class Time{
+    private:
+        chrono::time_point<std::chrono::high_resolution_clock> start;
+        chrono::time_point<std::chrono::high_resolution_clock> end;
+        chrono::steady_clock::duration elapsed;
+        chrono::milliseconds miliSecs;
+
+    public:
+        Time(){
+        }
+
+        void init(){
+            this->start = chrono::high_resolution_clock::now();
+        }
+
+        void stop(){
+            this->end = chrono::high_resolution_clock::now();
+            this->elapsed = this->end - this->start;
+            this->miliSecs = chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+        }
+
+        void printMili(){
+            cout << "Print milliseconds: " << this->miliSecs.count() << endl;
+        }
+
+        void printTics(){
+            cout << "Print tics: "<< this->elapsed.count() << endl;
+        }
+};
 

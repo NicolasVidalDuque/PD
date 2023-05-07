@@ -1,4 +1,5 @@
 #include "Encabezados.h"
+#include <chrono>
 
 using namespace std;
 
@@ -11,20 +12,19 @@ int main() {
     vector<KPIs> historico;
     string path = "datos\\";
     solution sol_per;
-    int cont = 1;
-
 
     //Solucion inicial
     solution solIni = makeSolIni(data);
     decode(solIni, data);
-    cout << "Inicial " << endl;
     print_it(__FUNCTION__, solIni, 0);
     
     //Busqueda local
     solFin = busqueda(solIni, data,historico);
+    
+    return 1;
     decode(solFin, data);
 
-    
+    int cont = 0;
     while (cont < 4){
 
         //Perturbacion
