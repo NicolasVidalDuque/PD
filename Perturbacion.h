@@ -35,6 +35,17 @@ solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar
         set<int>::iterator it = data.mCompatiblesL[aux1 + 1].begin();
         advance(it, aux2);//sale un id
 
+        bool v = data.mConfilctLTS[aux1+1].count(actual.vL[*it-1].TS);
+        if (v == false) {
+            a = a - 1;
+            break;
+        }
+        v = data.mConfilctLTS[*it].count(actual.vL[aux1].TS);
+        if (v == false) {
+            a = a - 1;
+            break;
+        }
+
         nueva = actual;
         nueva.vL[aux1].TS = actual.vL[*it - 1].TS;
         nueva.vL[*it - 1].TS = actual.vL[aux1].TS;

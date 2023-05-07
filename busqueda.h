@@ -94,7 +94,15 @@ solution poblar_vecindario_cambioTS(solution& actual, instance& data) {
 
 									nueva = actual;
 									nueva.vL[a].TS = *it2;
+									bool v = data.mConfilctLTS[a+1].count(nueva.vL[a].TS);
+									if (v==false){
+										break;
+									}
 									nueva.vL[*itr - 1].TS = *it;
+									v = data.mConfilctLTS[*itr].count(nueva.vL[*itr-1].TS);
+									if (v == false) {
+										break;
+									}
 									decode(nueva, data);
 									if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
 										mejor_vecina = nueva;
@@ -123,7 +131,15 @@ solution poblar_vecindario_intercambio(solution& actual, instance& data) {
 				if (data.mConfilctLTS[a + 1].count(actual.vL[*itr - 1].TS)) { //si el TS del *itr es compatible con el Lecture a que siga
 					nueva = actual;
 					nueva.vL[a].TS = actual.vL[*itr - 1].TS;
+					bool v = data.mConfilctLTS[a+1].count(nueva.vL[a].TS);
+					if (v==false){
+						break;
+					}
 					nueva.vL[*itr - 1].TS = actual.vL[a].TS;
+					v = data.mConfilctLTS[*itr].count(nueva.vL[*itr-1].TS);
+					if (v == false) {
+						break;
+					}
 					decode(nueva, data);
 					if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
 						mejor_vecina = nueva;
