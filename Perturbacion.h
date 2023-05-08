@@ -14,10 +14,13 @@ solution Perturbacion(solution& actual, instance& data, int i) {//1L aleatorio
         set<pair<int, int>>::iterator it = data.mConfilctLTS[aux1 + 1].begin();
         advance(it, aux2);
 
+        
         nueva = actual;
         nueva.vL[aux1].TS = *it;
+        cout << "iter" << a << endl;
     }
-    decode(nueva, data);
+        cout << "salio" << endl;
+
     return nueva;
 }
 
@@ -50,7 +53,6 @@ solution Perturbacion2(solution& actual, instance& data, int i) {// Intercambiar
         nueva.vL[aux1].TS = actual.vL[*it - 1].TS;
         nueva.vL[*it - 1].TS = actual.vL[aux1].TS;
     }
-    decode(nueva, data);
     return nueva;
 }
 
@@ -60,5 +62,7 @@ solution main_perturbacion(solution& actual, instance& data) {
     cout << "-- Perturbacion --" << endl;
     copia = Perturbacion2(copia, data,numPerturbations);
     copia = Perturbacion(copia, data, numPerturbations);
+        cout << 3 << endl;
+
     return copia;
 }

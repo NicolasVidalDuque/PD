@@ -75,10 +75,11 @@ class Time{
             this->start = chrono::high_resolution_clock::now();
         }
 
-        void stop(){
+        int stop(){
             this->end = chrono::high_resolution_clock::now();
             this->elapsed = this->end - this->start;
             this->miliSecs = chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+            return miliSecs.count();
         }
 
         void printMili(){
@@ -89,4 +90,3 @@ class Time{
             cout << "Print tics: "<< this->elapsed.count() << endl;
         }
 };
-

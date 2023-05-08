@@ -20,15 +20,13 @@ int main() {
     
     //Busqueda local
     solFin = busqueda(solIni, data,historico);
-    
-    return 1;
-    decode(solFin, data);
 
     int cont = 0;
     while (cont < 4){
 
         //Perturbacion
         sol_per = main_perturbacion(solFin, data);
+        cout << 1 << endl;
         decode(sol_per, data);
 
         //Busqueda local post perturbacion
@@ -45,21 +43,6 @@ int main() {
         }
 
     }
-    /*
-    if (Sol.KPI.z <= Triple.KPI.z){
-        mejora = false;
-    }else {
-        cout << "Main:Mejoro " << "z: " << Sol.KPI.z << " - pref: " << Sol.KPI.sum_preferencias << " - duros: " << Sol.KPI.cruceduro << " - suave: " << Sol.KPI.crucesuave << endl;
-        Triple = Sol;
-    }
-    */
-
-
-
-
-        //print_solution(solFin, path + "SolucionTrip1.txt");
-        //print_historico(mejor_historico, path + "HistoricoFinal.txt");
-    // print_tipo(v_tipo, path + "TipoFinal.txt");
     
 
     cout << "fin...\n";

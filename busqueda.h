@@ -33,7 +33,6 @@ solution poblar_vecindario_intercambio_priori(solution& actual, instance& data) 
 	solution mejor_vecina;
 	int a;
 
-
 	for (int b = 0; b < actual.KPI.id_cruces.size(); b++) {
 		a = actual.KPI.id_cruces[b];
 		for (auto itr = data.mCompatiblesL[a + 1].begin(); itr != data.mCompatiblesL[a + 1].end(); itr++) {
@@ -58,7 +57,6 @@ solution poblar_vecindario_cambioTS(solution& actual, instance& data) {
 	solution nueva;
 	solution mejor_vecina;
 	set <int> tipos = { 1,2,3,4,5 };
-
 	while (tipos.size()!=0){
 
 		//  Que tipo de TS vamos a intercambiar
@@ -235,6 +233,7 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 	int cont = 0;
 
 	for (int i = 0; i <10000; i++){
+
 		vector<solution> ranking = {
 			metodo_poblacion_1(actual,data),
 			metodo_poblacion_2(actual,data),
@@ -244,7 +243,6 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 		sort(ranking.begin(), ranking.end(), sorting_solutions);
 		actual = ranking[0];
 
-		historico.push_back(actual.KPI);
 		if (actual.KPI.z > mejor_mejor.KPI.z){
 			mejor_mejor = actual;
 			print_it(__FUNCTION__,mejor_mejor,i);
@@ -252,6 +250,7 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 			cout << "-- Optimo Local --" << endl;
 			break;
 		}
+		break;
 	}
 	return mejor_mejor;
 }
@@ -305,4 +304,5 @@ solution busqueda(solution& semilla, instance& data,vector<KPIs>& historico) {
 		poblar_vecindario_intercambio,
 		poblar_vecindario_introducir
 	);	 
+	
 }
