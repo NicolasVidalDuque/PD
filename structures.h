@@ -75,7 +75,7 @@ class Time{
             this->start = chrono::high_resolution_clock::now();
         }
 
-        int stop(){
+        double stop(){
             this->end = chrono::high_resolution_clock::now();
             this->elapsed = this->end - this->start;
             this->miliSecs = chrono::duration_cast<std::chrono::milliseconds>(elapsed);

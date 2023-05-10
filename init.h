@@ -10,6 +10,8 @@
 #include "reading.h"
 #include "structures.h"
 
+double tiempo_decode = 0;
+
 # define TOTAL_LECTURES 100
 # define TOTAL_TIMESLOTS 132
 
@@ -89,6 +91,8 @@ void crucesDuros(solution& s, instance& data) {
 }
 
 void decode(solution& s, instance& data) {
+    Time t;
+    t.init();
     int sum = 0;
     pair<int, int> nullPair = make_pair(0, 0);
     lecture l;
@@ -101,6 +105,7 @@ void decode(solution& s, instance& data) {
     crucesSuaves(s, data);
     crucesDuros(s, data);
     s.KPI.z = (s.KPI.sum_preferencias - s.KPI.crucesuave - 1000 * s.KPI.cruceduro);
+    tiempo_decode += t.stop();
 }
 
 

@@ -54,6 +54,8 @@ solution poblar_vecindario_intercambio_priori(solution& actual, instance& data) 
 }
 
 solution poblar_vecindario_cambioTS(solution& actual, instance& data) {
+	Time t;
+	t.init();
 	solution nueva;
 	solution mejor_vecina;
 	set <int> tipos = { 1,2,3,4,5 };
@@ -101,6 +103,7 @@ solution poblar_vecindario_cambioTS(solution& actual, instance& data) {
 									if (v == false) {
 										break;
 									}
+										
 									decode(nueva, data);
 									if (mejor_vecina.KPI.z < nueva.KPI.z) {//Evitar que se mueva al mejor_mejor (criterio Tab�)
 										mejor_vecina = nueva;
@@ -115,10 +118,13 @@ solution poblar_vecindario_cambioTS(solution& actual, instance& data) {
 		}
 		tipos.erase(it3);
 	}
+	cout << __FUNCTION__ << " " << t.stop() << endl;
 	return mejor_vecina;
 }
 
 solution poblar_vecindario_intercambio(solution& actual, instance& data) {
+	Time t;
+	t.init();
 	solution nueva;
 	solution mejor_vecina;
 	for (int a = 0; a < TOTAL_LECTURES - 1; a++){
@@ -147,10 +153,13 @@ solution poblar_vecindario_intercambio(solution& actual, instance& data) {
 		}
 
 	}
+	cout << __FUNCTION__ << " " << t.stop() << endl;
 	return mejor_vecina;
 }
 
 solution poblar_vecindario_introducir(solution& actual, instance& data) {
+	Time t;
+	t.init();
 	solution nueva;
 	solution mejor_vecina;
 
@@ -169,6 +178,7 @@ solution poblar_vecindario_introducir(solution& actual, instance& data) {
 		}
 
 	}
+	cout << __FUNCTION__ << " " << t.stop() << endl;
 	return mejor_vecina;
 }
 
@@ -232,7 +242,7 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 	actual = semilla;
 	int cont = 0;
 
-	for (int i = 0; i <10000; i++){
+	for (int i = 0; i <1; i++){
 
 		vector<solution> ranking = {
 			metodo_poblacion_1(actual,data),
@@ -252,6 +262,7 @@ solution triple(solution& semilla, instance& data, vector<KPIs>& historico, solu
 		}
 		break;
 	}
+	cout << "tiempo decode " << tiempo_decode << endl;
 	return mejor_mejor;
 }
 
@@ -303,6 +314,6 @@ solution busqueda(solution& semilla, instance& data,vector<KPIs>& historico) {
 		poblar_vecindario_cambioTS,
 		poblar_vecindario_intercambio,
 		poblar_vecindario_introducir
-	);	 
+	);
 	
 }
